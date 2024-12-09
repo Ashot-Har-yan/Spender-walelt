@@ -1,0 +1,22 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.auth_wrapper{
+    background-color: #c9d6ff;
+    background: linear-gradient(to right,#e2e2e2,#6b88e8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+.form_container{
+    border:1px solid rgba(48, 19, 177, 0.92);
+    border-radius: 12px;
+    padding: 12px;
+    max-width: 400px;
+    min-width: 400px;
+
+}
+
