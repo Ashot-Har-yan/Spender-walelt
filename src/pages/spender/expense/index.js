@@ -1,4 +1,3 @@
-// src/ExpenseCategory.js
 import React, { useState } from 'react';
 import { Input, Button, Card, Typography } from 'antd';
 
