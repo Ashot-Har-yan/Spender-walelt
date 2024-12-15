@@ -9,11 +9,12 @@ function Spender() {
   const [car, setCar] = useState(0);
   const [food, setFood] = useState(0);
   const [leisure, setLeisure] = useState(0);
-  const [income, setIncome] = useState(0); // Initial income value set to 0
+  const [income, setIncome] = useState(0); 
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [remainingIncome, setRemainingIncome] = useState(0);
+  const [totalIncome, setTotalIncome] = useState(0); 
   const [currency, setCurrency] = useState('USD');
-  const [exchangeRate, setExchangeRate] = useState(1); // Default 1 (USD)
+  const [exchangeRate, setExchangeRate] = useState(1);
   const [expenseCategory, setExpenseCategory] = useState('');
   const [expenseAmount, setExpenseAmount] = useState(0);
   const [description, setDescription] = useState('');
@@ -46,7 +47,9 @@ function Spender() {
     }
 
     setTotalExpenses((prev) => prev + convertedAmount);
-    setRemainingIncome(income - totalExpenses - convertedAmount);
+
+    setRemainingIncome((prevIncome) => prevIncome - convertedAmount);
+
     setExpenseAmount(0);
     setDescription('');
   };
@@ -55,7 +58,6 @@ function Spender() {
     const value = parseFloat(e.target.value);
     if (!isNaN(value)) {
       setIncome(value);
-      setRemainingIncome(value - totalExpenses); // Recalculate remaining income after setting new income
     }
   };
 
@@ -64,7 +66,11 @@ function Spender() {
       alert('Please enter a valid income');
       return;
     }
-    setRemainingIncome(income - totalExpenses); // Update remaining income
+
+    setTotalIncome((prev) => prev + income);
+    setRemainingIncome((prevIncome) => prevIncome + income);
+
+    setIncome(0);
   };
 
   return (
@@ -86,7 +92,7 @@ function Spender() {
         </div>
       </Layout.Header>
 
-      <Layout.Content style={{ padding: '30px' }}>
+      <Layout.Content style={{ padding: '30px', display: 'grid', justifyItems: 'space-between' }}>
         <Row gutter={16}>
           <Col span={6}>
             <Card title="Car Expenses" bordered={false}>
@@ -103,11 +109,6 @@ function Spender() {
               <Title level={4}>{leisure.toFixed(2)} {currency}</Title>
             </Card>
           </Col>
-          <Col span={6}>
-            <Card title="Income" bordered={false}>
-              <Title level={4}>{income.toFixed(2)} {currency}</Title>
-            </Card>
-          </Col>
         </Row>
 
         <Row gutter={16} style={{ marginTop: '30px' }}>
@@ -118,7 +119,7 @@ function Spender() {
                   <Input
                     type="number"
                     value={income}
-                    onChange={handleIncomeChange} // Update the income state
+                    onChange={handleIncomeChange}
                     style={{ width: '200px' }}
                     placeholder="Enter your income"
                   />
@@ -170,13 +171,19 @@ function Spender() {
         </Row>
 
         <Row gutter={16} style={{ marginTop: '30px' }}>
-          <Col span={12}>
+          <Col span={6}>
             <Card title="Total Expenses" bordered={false}>
               <Title level={4}>{totalExpenses.toFixed(2)} {currency}</Title>
             </Card>
           </Col>
-          <Col span={12}>
-            <Card title="Remaining Income" bordered={false}>
+          <Col span={6}>
+            <Card title="Total Income" bordered={false}>
+              <Title level={4}>{totalIncome.toFixed(2)} {currency}</Title>
+            </Card>
+          </Col>
+        
+          <Col span={6}>
+            <Card title="Remaining Amount" bordered={false}>
               <Title level={4}>{remainingIncome.toFixed(2)} {currency}</Title>
             </Card>
           </Col>
